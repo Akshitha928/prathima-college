@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRATHIMA VOCATIONAL JUNIOR COLLEGE</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+body{line-height:1.6;background:#f8f9fa;}
+
+header{
+background:#77DD77;
+color:#000080;
+padding:15px 0;
+text-align:center;
+position:relative;
+}
+
+header h1{font-size:22px;}
+
+.logo-left,.logo-right{
+width:50px;
+height:50px;
+border-radius:50%;
+object-fit:cover;
+position:absolute;
+top:10px;
+border:2px solid white;
+}
+
+.logo-left{left:20px;}
+.logo-right{right:20px;}
+
+marquee{
+background:#ffcc00;
+color:#b30000;
+padding:10px;
+font-size:18px;
+font-weight:bold;
+}
+
+nav{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+background:#003366;
+}
+
+nav a{
+color:white;
+padding:14px 20px;
+text-decoration:none;
+}
+
+nav a:hover{
+background:#000080;
+}
+
+.page-section{
+display:none;
+padding:40px 20px;
+text-align:center;
+}
+
+#home{
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+background:url('https://i.ytimg.com/vi/l92VM-37TyY/hqdefault.jpg') no-repeat center center/cover;
+color:white;
+height:90vh;
+}
+
+#home h2{font-size:40px;}
+
+.btn{
+display:inline-block;
+padding:10px 20px;
+background:#00509e;
+color:white;
+text-decoration:none;
+border-radius:5px;
+margin-top:15px;
+}
+
+.course-container,.gallery-container,.faculty-container{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:20px;
+}
+
+.card{
+background:#f4f4f4;
+padding:20px;
+width:260px;
+border-radius:8px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.gallery-container img{
+width:250px;
+height:180px;
+border-radius:8px;
+object-fit:cover;
+box-shadow:0 4px 8px rgba(0,0,0,0.2);
+transition:0.3s;
+}
+
+.gallery-container img:hover{
+transform:scale(1.05);
+}
+
+input,textarea,select{
+width:80%;
+padding:10px;
+margin:10px 0;
+}
+
+button{
+padding:10px 20px;
+background:#00509e;
+color:white;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+
+footer{
+background:#002147;
+color:white;
+padding:20px;
+text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<img src="logo.jpeg" class="logo-left">
+<h1>PRATHIMA VOCATIONAL JUNIOR COLLEGE</h1>
+<img src="prin.jpeg" class="logo-right">
+</header>
+
+
+<marquee>🎓 Admissions are Open for 2025–2026 Academic Year. Apply Now!</marquee>
+<nav>
+<a href="#" onclick="showSection('home')">Home</a>
+<a href="#" onclick="showSection('about')">About</a>
+<a href="#" onclick="showSection('courses')">Courses</a>
+<a href="#" onclick="showSection('admissions')">Admissions</a>
+<a href="#" onclick="showSection('faculty')">Principal</a>
+<a href="#" onclick="showSection('gallery')">Campus Gallery</a>
+<a href="#" onclick="showSection('contact')">Contact</a>
+</nav>
+
+<section id="home" class="page-section">
+<h2>Welcome to PRATHIMA VOCATIONAL JUNIOR COLLEGE</h2>
+<p>Empowering Students for a Brighter Tomorrow</p>
+<a href="#" onclick="showSection('admissions')" class="btn">Apply Now</a>
+</section>
+
+<section id="about" class="page-section">
+<h2>About Us</h2>
+<p>PRATHIMA VOCATIONAL JUNIOR COLLEGE is committed to academic excellence and holistic development.</p>
+</section>
+
+<section id="courses" class="page-section">
+<h2>Our Vocational Courses</h2>
+<div class="course-container">
+<div class="card"><h3>ACP</h3><p>Agriculture Crop Production</p></div>
+<div class="card"><h3>CS</h3><p>Computer Science</p></div>
+<div class="card"><h3>ET</h3><p>Electrical Technician</p></div>
+<div class="card"><h3>CT</h3><p>Construction Technology</p></div>
+<div class="card"><h3>MLT</h3><p>Medical Lab Technician</p></div>
+<div class="card"><h3>MPHW(F)</h3><p>Multi Purpose Health Worker</p></div>
+</div>
+</section>
+
+<section id="admissions" class="page-section">
+<h2>Admissions</h2>
+<p>Admissions are open for 2025–2026 academic year.</p>
+</section>
+
+<section id="faculty" class="page-section">
+<h2>Principal</h2>
+<div class="faculty-container">
+<div class="card">
+<h3>K. Prabhakar</h3>
+<p>Principal</p>
+</div>
+</div>
+</section>
+
+<section id="gallery" class="page-section">
+<h2>Campus Gallery</h2>
+<div class="gallery-container" id="galleryImages"></div>
+</section>
+
+<section id="contact" class="page-section">
+<h2>Contact Us</h2>
+<p>
+Prathima (VOC) Junior College<br>
+Beside Bhashar Rao Hospital<br>
+Prashanth Nagar, Shivaji Nagar<br>
+Siddipet, Telangana 502103
+</p>
+
+<p>
+📞 +91 9177803300<br>
+📞 +91 9492803300
+</p>
+
+<form action="https://formsubmit.co/gnrvoc14180@gmail.com" method="POST">
+<input type="text" placeholder="Name" required>
+<input type="email" placeholder="Email" required>
+<input type="text" placeholder="Mobile Number" required>
+<select required>
+<option>Select Query</option>
+<option>Admission</option>
+<option>Courses</option>
+<option>General</option>
+</select>
+<textarea placeholder="Your Query"></textarea><br>
+<button type="submit">Submit</button>
+</form>
+</section>
+
+<footer>
+<p>© 2026 PRATHIMA VOCATIONAL JUNIOR COLLEGE | All Rights Reserved</p>
+</footer>
+
+<script>
+for(let i=1;i<=45;i++){
+document.getElementById("galleryImages").innerHTML +=
+`<img src="${i}.jpeg" alt="Campus Image">`;
+}
+
+function showSection(id){
+document.querySelectorAll(".page-section").forEach(s=>{
+s.style.display="none";
+});
+
+if(id==="home"){
+document.getElementById(id).style.display="flex";
+}
+else{
+document.getElementById(id).style.display="block";
+}
+}
+
+showSection("home");
+</script>
+
+</body>
+</html>

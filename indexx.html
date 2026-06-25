@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Getinkvision Pro</title>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<style>
+body{margin:0;font-family:sans-serif;background:#f1f3f6;}
+header{background:#2874f0;color:#fff;padding:12px;display:flex;justify-content:space-between;}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;padding:15px;}
+.card{background:#fff;padding:10px;border-radius:8px;text-align:center;}
+.card img{width:100%;height:150px;}
+button{padding:8px;border:none;border-radius:5px;margin:5px;cursor:pointer;}
+.cart{position:fixed;right:0;top:0;width:300px;height:100%;background:#fff;padding:10px;display:none;overflow:auto;}
+.login{position:fixed;width:100%;height:100%;background:rgba(0,0,0,0.5);display:flex;justify-content:center;align-items:center;}
+.box{background:#fff;padding:20px;}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div class="login" id="login">
+<div class="box">
+<h3>Login</h3>
+<input id="phone" placeholder="Phone"><br>
+<button onclick="sendOTP()">Send OTP</button><br>
+<input id="otp" placeholder="Enter OTP"><br>
+<button onclick="verifyOTP()">Verify</button>
+</div>
+</div>
+
+<header>
+<h2>Getinkvision</h2>
+<button onclick="openCart()">Cart (<span id="count">0</span>)</button>
+</header>
+
+<div class="products">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1606813902912-dcf0c03b5e44">
+<h3>Floor Cleaner</h3>
+<p>₹120</p>
+<p>⭐⭐⭐⭐☆</p>
+<button onclick="addCart('Floor Cleaner',120)">Add</button>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1581579185169-7e0c6e7c8b6c">
+<h3>Toilet Cleaner</h3>
+<p>₹90</p>
+<p>⭐⭐⭐⭐⭐</p>
+<button onclick="addCart('Toilet Cleaner',90)">Add</button>
+</div>
+
+</div>
+
+<!-- CART -->
+<div class="cart" id="cart">
+<h3>Cart</h3>
+<div id="items"></div>
+<p>Total ₹<span id="total">0</span></p>
+
+<input id="address" placeholder="Enter Address"><br><br>
+
+<!-- GOOGLE MAP -->
+<iframe width="100%" height="150"
+src="https://maps.google.com/maps?q=hyderabad&t=&z=13&ie=UTF8&iwloc=&output=embed">
+</iframe>
+
+<button onclick="pay()">Place Order</button>
+</div>
+
+<script>
+
+let cart=[];
+
+// OTP
+function sendOTP(){
+fetch("http://127.0.0.1:5000/send-otp",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({mobile:phone.value})
+});
+alert("OTP sent (check terminal)");
+}
+
+function verifyOTP(){
+fetch("http://127.0.0.1:5000/verify-otp",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({mobile:phone.value,otp:otp.value})
+})
+.then(r=>r.json())
+.then(d=>{
+if(d.status=="success"){
+login.style.display="none";
+}else{
+alert("Wrong OTP");
+}
+});
+}
+
+// CART
+function addCart(n,p){
+cart.push({n,p});
+update();
+}
+
+function update(){
+let html="",total=0;
+cart.forEach(i=>{
+html+=`<p>${i.n} ₹${i.p}</p>`;
+total+=i.p;
+});
+items.innerHTML=html;
+totalSpan= document.getElementById("total");
+totalSpan.innerText=total;
+count.innerText=cart.length;
+}
+
+function openCart(){
+cartDiv=document.getElementById("cart");
+cartDiv.style.display="block";
+}
+
+// PAYMENT
+function pay(){
+
+let addr=document.getElementById("address").value;
+if(addr==""){alert("Enter address");return;}
+
+let total=document.getElementById("total").innerText;
+
+fetch("http://127.0.0.1:5000/create-order",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({amount:parseInt(total)})
+})
+.then(r=>r.json())
+.then(data=>{
+
+var options={
+key:"rzp_test_yourkey",
+amount:data.amount,
+currency:"INR",
+order_id:data.id,
+handler:function(){
+alert("Order placed ✅");
+showTracking();
+}
+};
+
+var rzp=new Razorpay(options);
+rzp.open();
+
+});
+}
+
+// TRACKING
+function showTracking(){
+document.body.innerHTML=`
+<h2>Order Tracking</h2>
+<p>Order Confirmed ✅</p>
+<p>Shipped 🚚</p>
+<p>Out for Delivery 📦</p>
+<p>Delivered 🎉</p>
+`;
+}
+
+</script>
+
+</body>
+</html>

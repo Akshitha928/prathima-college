@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Getinkvision</title>
+
+<style>
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:#eef2f7;
+}
+
+/* HEADER */
+header{
+background:linear-gradient(90deg,#0f2027,#203a43,#2c5364);
+color:#fff;
+padding:12px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+header input{
+width:40%;
+padding:10px;
+border-radius:20px;
+border:none;
+}
+
+nav{
+background:#fff;
+display:flex;
+justify-content:center;
+gap:30px;
+padding:10px;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+nav a{
+cursor:pointer;
+font-weight:bold;
+}
+
+.banner{
+height:300px;
+background:url('https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?q=80&w=1400&auto=format&fit=crop') center/cover;
+display:flex;
+justify-content:center;
+align-items:center;
+color:#fff;
+font-size:34px;
+font-weight:bold;
+text-shadow:2px 2px 10px rgba(0,0,0,0.6);
+}
+
+/* SECTIONS */
+.section{
+display:none;
+padding:30px;
+}
+
+.active{
+display:block;
+}
+
+.box{
+background:#fff;
+padding:20px;
+border-radius:15px;
+box-shadow:0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* PRODUCTS */
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:20px;
+}
+
+.card{
+background:#fff;
+padding:15px;
+border-radius:15px;
+text-align:center;
+box-shadow:0 3px 12px rgba(0,0,0,0.1);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.card img{
+width:100%;
+height:180px;
+object-fit:cover;
+border-radius:10px;
+}
+
+.price{
+color:#009688;
+font-size:20px;
+font-weight:bold;
+}
+
+.btn{
+width:100%;
+padding:10px;
+border:none;
+border-radius:20px;
+margin-top:8px;
+cursor:pointer;
+font-size:15px;
+}
+
+.add{
+background:#ff9800;
+color:#fff;
+}
+
+.buy{
+background:#009688;
+color:#fff;
+}
+
+/* RATING */
+.stars span{
+font-size:22px;
+cursor:pointer;
+color:gray;
+}
+
+.stars span.active{
+color:gold;
+}
+
+/* CART */
+.cart{
+position:fixed;
+right:0;
+top:0;
+width:320px;
+height:100%;
+background:#fff;
+padding:15px;
+display:none;
+overflow:auto;
+box-shadow:-5px 0 20px rgba(0,0,0,0.2);
+z-index:999;
+}
+
+.cart-item{
+display:flex;
+align-items:center;
+margin-bottom:10px;
+background:#f5f5f5;
+padding:8px;
+border-radius:10px;
+}
+
+.cart img{
+width:60px;
+height:60px;
+margin-right:10px;
+border-radius:8px;
+}
+
+/* LOGIN */
+.login-box{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:1000;
+}
+
+.login-form{
+background:#fff;
+padding:25px;
+border-radius:15px;
+text-align:center;
+width:300px;
+}
+
+.login-form input{
+width:90%;
+padding:10px;
+margin:8px 0;
+}
+
+/* POPUPS */
+.popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:1000;
+}
+
+.popup-box{
+background:#fff;
+padding:20px;
+border-radius:10px;
+text-align:center;
+}
+
+.popup-box input,
+textarea{
+margin:8px;
+padding:8px;
+width:250px;
+}
+
+.qr{
+width:200px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div class="login-box" id="login">
+<div class="login-form">
+<h2>Getinkvision Login</h2>
+
+<input type="text" id="mobile" placeholder="Enter Mobile Number">
+
+<button class="btn buy" onclick="sendOTP()">Send OTP</button>
+
+<div id="otpBox" style="display:none;">
+<input type="text" id="otp" placeholder="Enter OTP">
+
+<button class="btn add" onclick="verifyOTP()">Verify OTP</button>
+</div>
+</div>
+</div>
+
+<header>
+<h2>Getinkvision</h2>
+
+<input type="text" placeholder="Search products...">
+
+<button class="btn buy" style="width:auto;padding:10px 20px;" onclick="toggleCart()">
+Cart (<span id="cart-count">0</span>)
+</button>
+</header>
+
+<nav>
+<a onclick="showPage('home')">Home</a>
+<a onclick="showPage('products')">Products</a>
+<a onclick="showPage('about')">About Us</a>
+<a onclick="showPage('contact')">Contact</a>
+</nav>
+
+<div class="banner">
+Premium Cleaning & Chemical Solutions
+</div>
+
+<!-- HOME -->
+<div id="home" class="section active">
+<div class="box">
+<h2>Welcome to Getinkvision</h2>
+
+<p>
+We provide high-quality cleaning products and industrial chemical solutions
+for homes, offices, hotels, and industries.
+</p>
+
+<img src="https://images.unsplash.com/photo-1563453392212-326f5e854473?q=80&w=1200&auto=format&fit=crop"
+style="width:100%;border-radius:15px;margin-top:15px;">
+</div>
+</div>
+
+<!-- PRODUCTS -->
+<div id="products" class="section">
+<div class="box">
+
+<h2>Our Products</h2>
+
+<div class="products">
+
+<!-- PRODUCT 1 -->
+<div class="card">
+<img src="https://images.unsplash.com/photo-1583947582886-f40ec95dd752?q=80&w=800&auto=format&fit=crop">
+
+<h3>Floor Cleaner</h3>
+
+<p class="price">₹120</p>
+
+<div class="stars" onclick="rate(this,event)">
+<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+</div>
+
+<button class="btn add" onclick="addToCart('Floor Cleaner',120,this)">
+Add to Cart
+</button>
+</div>
+
+<!-- PRODUCT 2 -->
+<div class="card">
+<img src="https://images.unsplash.com/photo-1604335399105-a0c585fd81a1?q=80&w=800&auto=format&fit=crop">
+
+<h3>Toilet Cleaner</h3>
+
+<p class="price">₹90</p>
+
+<div class="stars" onclick="rate(this,event)">
+<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+</div>
+
+<button class="btn add" onclick="addToCart('Toilet Cleaner',90,this)">
+Add to Cart
+</button>
+</div>
+
+<!-- PRODUCT 3 -->
+<div class="card">
+<img src="https://images.unsplash.com/photo-1585421514738-01798e348b17?q=80&w=800&auto=format&fit=crop">
+
+<h3>Glass Cleaner</h3>
+
+<p class="price">₹150</p>
+
+<div class="stars" onclick="rate(this,event)">
+<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+</div>
+
+<button class="btn add" onclick="addToCart('Glass Cleaner',150,this)">
+Add to Cart
+</button>
+</div>
+
+<!-- PRODUCT 4 -->
+<div class="card">
+<img src="https://images.unsplash.com/photo-1603791440384-56cd371ee9a7?q=80&w=800&auto=format&fit=crop">
+
+<h3>Dish Wash Liquid</h3>
+
+<p class="price">₹110</p>
+
+<div class="stars" onclick="rate(this,event)">
+<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+</div>
+
+<button class="btn add" onclick="addToCart('Dish Wash Liquid',110,this)">
+Add to Cart
+</button>
+</div>
+
+<!-- PRODUCT 5 -->
+<div class="card">
+<img src="https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?q=80&w=800&auto=format&fit=crop">
+
+<h3>Hand Wash</h3>
+
+<p class="price">₹80</p>
+
+<div class="stars" onclick="rate(this,event)">
+<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+</div>
+
+<button class="btn add" onclick="addToCart('Hand Wash',80,this)">
+Add to Cart
+</button>
+</div>
+
+<!-- PRODUCT 6 -->
+<div class="card">
+<img src="https://images.unsplash.com/photo-1610552050890-fe99536c2614?q=80&w=800&auto=format&fit=crop">
+
+<h3>Sanitizer</h3>
+
+<p class="price">₹70</p>
+
+<div class="stars" onclick="rate(this,event)">
+<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+</div>
+
+<button class="btn add" onclick="addToCart('Sanitizer',70,this)">
+Add to Cart
+</button>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- ABOUT -->
+<div id="about" class="section">
+<div class="box">
+
+<h2>About Getinkvision</h2>
+
+<p>
+Getinkvision is a trusted provider of cleaning products and chemical solutions.
+We focus on quality, affordability, and customer satisfaction.
+</p>
+
+<h3>Vision</h3>
+<p>To become India's leading cleaning solution provider.</p>
+
+<h3>Mission</h3>
+<p>
+Deliver affordable, safe, and eco-friendly cleaning products
+with excellent customer service.
+</p>
+
+<h3>Why Choose Us?</h3>
+
+<ul>
+<li>✔ Premium Quality Products</li>
+<li>✔ Affordable Prices</li>
+<li>✔ Fast Delivery</li>
+<li>✔ Trusted by Customers</li>
+<li>✔ Professional Support</li>
+</ul>
+
+<img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop"
+style="width:100%;border-radius:15px;">
+</div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="section">
+<div class="box">
+
+<h2>Contact Us</h2>
+
+<p>📞 +91 9876543210</p>
+
+<p>📧 info@getinkvision.com</p>
+
+<p>📍 Hyderabad, Telangana</p>
+
+<img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1200&auto=format&fit=crop"
+style="width:100%;border-radius:15px;">
+
+</div>
+</div>
+
+<!-- CART -->
+<div class="cart" id="cart">
+<h3>Your Cart</h3>
+
+<div id="cart-items"></div>
+
+<h3>Total: ₹<span id="total">0</span></h3>
+
+<button class="btn buy" onclick="openAddress()">
+Place Order
+</button>
+</div>
+
+<!-- ADDRESS -->
+<div class="popup" id="addressBox">
+<div class="popup-box">
+
+<h3>Delivery Address</h3>
+
+<input type="text" id="name" placeholder="Name"><br>
+
+<input type="text" id="phone" placeholder="Phone"><br>
+
+<textarea id="address" placeholder="Address"></textarea><br>
+
+<button class="btn buy" onclick="openPayment()">
+Continue
+</button>
+
+</div>
+</div>
+
+<!-- PAYMENT -->
+<div class="popup" id="paymentBox">
+<div class="popup-box">
+
+<h3>Select Payment Method</h3>
+
+<button class="btn add" onclick="showQR()">
+UPI Payment
+</button>
+
+<button class="btn buy" onclick="payNow('Cash on Delivery')">
+Cash on Delivery
+</button>
+
+</div>
+</div>
+
+<!-- QR -->
+<div class="popup" id="qrBox">
+<div class="popup-box">
+
+<h3>Scan & Pay</h3>
+
+<img class="qr"
+src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=demo@upi&pn=Getinkvision&am=100">
+
+<p>Scan using PhonePe / Google Pay</p>
+
+<button class="btn buy" onclick="payNow('UPI Payment')">
+Payment Done
+</button>
+
+</div>
+</div>
+
+<script>
+let otp="";
+let logged=false;
+let cart=[];
+
+/* OTP */
+function sendOTP(){
+otp=Math.floor(100000+Math.random()*900000);
+alert("Demo OTP: "+otp);
+document.getElementById("otpBox").style.display="block";
+}
+
+function verifyOTP(){
+if(document.getElementById("otp").value==otp){
+logged=true;
+document.getElementById("login").style.display="none";
+alert("Login Successful");
+}else{
+alert("Wrong OTP");
+}
+}
+
+/* PAGE SWITCH */
+function showPage(id){
+document.querySelectorAll(".section")
+.forEach(s=>s.classList.remove("active"));
+
+document.getElementById(id)
+.classList.add("active");
+}
+
+/* STAR RATING */
+function rate(starDiv,e){
+let stars=starDiv.children;
+let index=[...stars].indexOf(e.target);
+
+for(let i=0;i<stars.length;i++){
+stars[i].classList.toggle("active",i<=index);
+}
+}
+
+/* ADD TO CART */
+function addToCart(name,price,btn){
+
+if(!logged){
+alert("Please login first");
+return;
+}
+
+let img=btn.parentElement.querySelector("img").src;
+
+let item=cart.find(i=>i.name===name);
+
+if(item){
+item.qty++;
+}else{
+cart.push({
+name,
+price,
+qty:1,
+img
+});
+}
+
+updateCart();
+}
+
+/* UPDATE CART */
+function updateCart(){
+
+let box=document.getElementById("cart-items");
+
+box.innerHTML="";
+
+let total=0;
+let count=0;
+
+cart.forEach(i=>{
+
+box.innerHTML+=`
+<div class="cart-item">
+<img src="${i.img}">
+<div>
+<b>${i.name}</b><br>
+Qty: ${i.qty}<br>
+₹${i.price*i.qty}
+</div>
+</div>
+`;
+
+total+=i.price*i.qty;
+count+=i.qty;
+});
+
+document.getElementById("total").innerText=total;
+document.getElementById("cart-count").innerText=count;
+}
+
+/* TOGGLE CART */
+function toggleCart(){
+
+if(!logged){
+alert("Please login first");
+return;
+}
+
+let c=document.getElementById("cart");
+
+c.style.display=
+c.style.display==="block"?"none":"block";
+}
+
+/* ADDRESS */
+function openAddress(){
+
+if(cart.length==0){
+alert("Cart is empty");
+return;
+}
+
+document.getElementById("addressBox")
+.style.display="flex";
+}
+
+/* PAYMENT */
+function openPayment(){
+
+document.getElementById("addressBox")
+.style.display="none";
+
+document.getElementById("paymentBox")
+.style.display="flex";
+}
+
+function showQR(){
+
+document.getElementById("paymentBox")
+.style.display="none";
+
+document.getElementById("qrBox")
+.style.display="flex";
+}
+
+/* PAYMENT SUCCESS */
+function payNow(method){
+
+alert("Payment Successful via "+method);
+
+cart=[];
+
+updateCart();
+
+document.querySelectorAll(".popup")
+.forEach(p=>p.style.display="none");
+
+document.getElementById("cart")
+.style.display="none";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Getinkvision Store</title>
+
+<style>
+body{margin:0;font-family:Arial;background:#f1f3f6;}
+
+header{background:#2874f0;color:#fff;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;}
+header input{width:50%;padding:8px;border:none;border-radius:4px;}
+header button{background:#fff;color:#2874f0;border:none;padding:8px 12px;border-radius:4px;cursor:pointer;font-weight:bold;}
+
+nav{background:#fff;padding:10px;display:flex;justify-content:center;gap:30px;font-weight:bold;}
+nav div{position:relative;cursor:pointer;}
+
+/* MEGA MENU */
+.mega{display:none;position:absolute;top:30px;left:0;width:600px;background:#fff;box-shadow:0 4px 10px rgba(0,0,0,0.2);padding:20px;grid-template-columns:repeat(3,1fr);gap:20px;}
+nav div:hover .mega{display:grid;}
+.mega a{display:block;padding:5px;color:#333;text-decoration:none;}
+.mega a:hover{color:#2874f0;}
+
+.banner{height:250px;background:url('https://images.unsplash.com/photo-1581578731548-c64695cc6952') center/cover;display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;font-weight:bold;}
+
+.products{display:none;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;padding:20px;}
+.card{background:#fff;padding:15px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+.card img{width:100%;height:150px;object-fit:cover;border-radius:6px;}
+.price{color:green;font-weight:bold;}
+
+.btn{width:100%;padding:8px;margin-top:5px;border:none;border-radius:4px;cursor:pointer;font-weight:bold;}
+.add{background:#ff9f00;color:#fff;}
+.buy{background:#fb641b;color:#fff;}
+
+.cart{position:fixed;right:0;top:0;width:320px;height:100%;background:#fff;box-shadow:-3px 0 8px rgba(0,0,0,0.2);padding:15px;display:none;overflow:auto;}
+.cart img{width:50px;height:50px;object-fit:cover;border-radius:5px;margin-right:10px;}
+.cart-item{display:flex;align-items:center;margin-bottom:10px;}
+
+.login-box{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;}
+.login-form{background:#fff;padding:20px;border-radius:8px;text-align:center;}
+.login-form input{margin:10px;padding:8px;width:200px;}
+
+footer{background:#2874f0;color:#fff;text-align:center;padding:10px;}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div class="login-box" id="login">
+<div class="login-form">
+<h3>Login</h3>
+<input type="text" placeholder="Username" id="user"><br>
+<input type="password" placeholder="Password"><br>
+<button onclick="login()">Login</button>
+</div>
+</div>
+
+<header>
+<h2>Getinkvision</h2>
+<input type="text" placeholder="Search for products...">
+<button onclick="toggleCart()">Cart (<span id="cart-count">0</span>)</button>
+</header>
+
+<nav>
+<div>Products
+<div class="mega">
+<div>
+<b>Cleaning</b>
+<a onclick="showProducts('Floor Cleaner')">Floor Cleaner</a>
+<a onclick="showProducts('Toilet Cleaner')">Toilet Cleaner</a>
+</div>
+<div>
+<b>Industrial</b>
+<a onclick="showProducts('Degreaser')">Degreaser</a>
+</div>
+<div>
+<b>Personal Care</b>
+<a onclick="showProducts('Hand Wash')">Hand Wash</a>
+</div>
+</div>
+</div>
+</nav>
+
+<div class="banner">Welcome to Getinkvision</div>
+
+<section class="products" id="products">
+
+<div class="card" data-name="Floor Cleaner">
+<img src="https://images.unsplash.com/photo-1606813902912-dcf0c03b5e44">
+<h3>Floor Cleaner</h3>
+<p class="price">₹120</p>
+<button class="btn add" onclick="addToCart('Floor Cleaner',120,this)">Add to Cart</button>
+<button class="btn buy" onclick="buyNow('Floor Cleaner',120)">Buy Now</button>
+</div>
+
+<div class="card" data-name="Toilet Cleaner">
+<img src="https://images.unsplash.com/photo-1581579185169-7e0c6e7c8b6c">
+<h3>Toilet Cleaner</h3>
+<p class="price">₹90</p>
+<button class="btn add" onclick="addToCart('Toilet Cleaner',90,this)">Add to Cart</button>
+<button class="btn buy" onclick="buyNow('Toilet Cleaner',90)">Buy Now</button>
+</div>
+
+<div class="card" data-name="Degreaser">
+<img src="https://images.unsplash.com/photo-1581091215367-59ab6b89e5f8">
+<h3>Degreaser</h3>
+<p class="price">₹150</p>
+<button class="btn add" onclick="addToCart('Degreaser',150,this)">Add to Cart</button>
+<button class="btn buy" onclick="buyNow('Degreaser',150)">Buy Now</button>
+</div>
+
+<div class="card" data-name="Hand Wash">
+<img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b">
+<h3>Hand Wash</h3>
+<p class="price">₹70</p>
+<button class="btn add" onclick="addToCart('Hand Wash',70,this)">Add to Cart</button>
+<button class="btn buy" onclick="buyNow('Hand Wash',70)">Buy Now</button>
+</div>
+
+</section>
+
+<div class="cart" id="cart">
+<h3>Your Cart</h3>
+<div id="cart-items"></div>
+<p><b>Total: ₹<span id="total">0</span></b></p>
+<button class="btn buy" onclick="checkout()">Place Order</button>
+</div>
+
+<footer>© 2026 Getinkvision</footer>
+
+<script>
+let cart=[];
+let loggedIn=false;
+
+function login(){
+let user=document.getElementById('user').value;
+if(user===''){alert('Enter username');return;}
+loggedIn=true;
+document.getElementById('login').style.display='none';
+}
+
+function showProducts(name){
+if(!loggedIn){alert('Please login first');return;}
+let section=document.getElementById('products');
+section.style.display='grid';
+let cards=document.querySelectorAll('.card');
+cards.forEach(card=>{
+card.style.display=(card.dataset.name===name)?'block':'none';
+});
+}
+
+function addToCart(name,price,btn){
+let img=btn.parentElement.querySelector('img').src;
+let item=cart.find(i=>i.name===name);
+if(item){item.qty++;}
+else{cart.push({name,price,qty:1,img});}
+updateCart();
+}
+
+function updateCart(){
+let box=document.getElementById('cart-items');
+box.innerHTML='';
+let total=0,count=0;
+cart.forEach(i=>{
+let div=document.createElement('div');
+div.className='cart-item';
+div.innerHTML=`<img src="${i.img}"> ${i.name} x${i.qty} - ₹${i.price*i.qty}`;
+box.appendChild(div);
+total+=i.price*i.qty;
+count+=i.qty;
+});
+document.getElementById('total').textContent=total;
+document.getElementById('cart-count').textContent=count;
+}
+
+function toggleCart(){
+document.getElementById('cart').style.display='block';
+}
+
+function buyNow(name,price){alert('Order placed for '+name);} 
+
+function checkout(){if(cart.length===0){alert('Cart empty');return;}alert('Order placed');cart=[];updateCart();}
+</script>
