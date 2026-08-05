@@ -278,7 +278,8 @@ content:"";
 position:absolute;
 left:0;
 top:0;
-width:100%;
+width: 100%;
+max-width: 1200px;
 height:100%;
 background:rgba(0,40,90,.55);
 }
@@ -287,7 +288,8 @@ background:rgba(0,40,90,.55);
 position:relative;
 color:white;
 padding-left:8%;
-max-width:650px;
+width: 100%;
+max-width: 1200px;
 z-index:2;
 }
 
@@ -364,7 +366,8 @@ flex:1;
 }
 
 .about-image img{
-width:100%;
+width: 100%;
+max-width: 1200px;
 border-radius:10px;
 box-shadow:0 10px 25px rgba(0,0,0,.15);
 }
@@ -634,7 +637,8 @@ box-shadow:0 5px 15px rgba(0,0,0,.15);
 }
 
 .gallery-item img{
-width:100%;
+width: 100%;
+max-width: 1200px;
 height:250px;
 object-fit:cover;
 transition:.5s;
@@ -791,6 +795,7 @@ img {
 
     .apply-btn {
         width: 100%;
+        max-width: 1200px;
         margin-top: 20px;
     }
 }
